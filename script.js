@@ -291,12 +291,15 @@ function initializeEventForm() {
                     responseBox.innerText = "Registration successful!";
                 }
                 form.reset();
-            } catch (error) {
+            } } catch (error) {
                 console.error('Submission error:', error);
                 if(responseBox) {
                     responseBox.style.display = 'block';
                     responseBox.className = 'error';
-                    responseBox.innerText = "Cannot connect to server.";
+                    // This will display the actual error message on your screen:
+                    responseBox.innerText = "Error: " + error.message; 
+                }
+            }
                 }
             } finally {
                 submitBtn.disabled = false;
