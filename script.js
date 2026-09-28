@@ -245,11 +245,20 @@ function initializeEventForm() {
     const SUPABASE_URL = 'https://uinvowtypvcscnbmpfct.supabase.co/rest/v1/IdeathonRegistration';
 
     if (applyBtn && formBox) {
+        // Ensure form is hidden initially to make the button have a clear effect
+        formBox.style.display = 'none';
+
         applyBtn.addEventListener('click', () => {
+            formBox.style.display = 'block';
             formBox.classList.add('active');
+            
             if(responseBox) responseBox.style.display = 'none';
-            form.reset();
+            if(form) form.reset();
+            
             applyBtn.style.display = 'none';
+            
+            // Smoothly scroll down to the form
+            formBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
         });
     }
     
@@ -291,15 +300,19 @@ function initializeEventForm() {
                     responseBox.innerText = "Registration successful!";
                 }
                 form.reset();
-            } } catch (error) {
+                
+                // Clear the dynamic participants container if they registered a team
+                const dynamicContainer = document.getElementById('dynamic-members-container');
+                if(dynamicContainer) {
+                    dynamicContainer.innerHTML = '';
+                }
+
+            } catch (error) {
                 console.error('Submission error:', error);
                 if(responseBox) {
                     responseBox.style.display = 'block';
                     responseBox.className = 'error';
-                    // This will display the actual error message on your screen:
                     responseBox.innerText = "Error: " + error.message; 
-                }
-            }
                 }
             } finally {
                 submitBtn.disabled = false;
