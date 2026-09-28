@@ -41,7 +41,7 @@ async function fetchEventsForSlider() {
         // 3. Clear existing slides (keep controls)
         sliderContainer.innerHTML = '';
         
-        // Let's show the first 5 events in the slider (change 5 to whatever you want)
+        // Let's show the first 5 events in the slider
         const recentEvents = Array.from(eventCards).slice(0, 5);
 
         // 4. Build new slides based on the fetched events
@@ -49,7 +49,6 @@ async function fetchEventsForSlider() {
             const title = card.querySelector('.hidden-title').innerText;
             const imgSrc = card.querySelector('.card-img-top').getAttribute('src');
             
-            // Grab the first paragraph of the description and trim it so it fits nicely
             let rawDesc = card.querySelector('.hidden-desc p:nth-of-type(2)')?.innerText || "Join us for this exciting JIDO event.";
             let shortDesc = rawDesc.length > 100 ? rawDesc.substring(0, 100) + '...' : rawDesc;
 
@@ -107,7 +106,6 @@ function initializeSlider() {
     
     if (slides.length === 0) return;
     
-    // Clear existing dots just in case it re-initializes
     dotsContainer.innerHTML = '';
     
     let currentSlideIndex = 0;
@@ -214,45 +212,38 @@ function initializeModals() {
     });
 
     const modalClose = document.querySelector('.modal-close');
-if (modalClose) {
-    modalClose.addEventListener('click', (e) => {
-        e.stopPropagation(); // Prevents any weird event bubbling issues
-        overlay.classList.remove('open');
-        document.body.style.overflow = '';
-    });
-}
-
-if (overlay) {
-    overlay.addEventListener('click', (e) => {
-        // Closes the modal if they tap outside the modal box container
-        if (e.target === overlay) {
+    if (modalClose) {
+        modalClose.addEventListener('click', (e) => {
+            e.stopPropagation(); 
             overlay.classList.remove('open');
             document.body.style.overflow = '';
-        }
-    });
-}
+        });
+    }
+
+    if (overlay) {
+        overlay.addEventListener('click', (e) => {
+            if (e.target === overlay) {
+                overlay.classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
+    }
 
     lightbox.querySelector('.lightbox-close').addEventListener('click', () => {
         lightbox.classList.remove('open');
     });
-
-    if(overlay) {
-        overlay.addEventListener('click', (e) => { 
-            if (e.target === overlay) { 
-                overlay.classList.remove('open'); 
-                document.body.style.overflow = ''; 
-            }
-        });
-    }
 }
 
-// --- Form Logic ---
+// --- Form Logic (Supabase Direct Integration) ---
 function initializeEventForm() {
     const formBox = document.getElementById('eventFormBox');
     const applyBtn = document.getElementById('applyEventBtn');
     const form = document.getElementById('modernEventForm');
     const responseBox = document.getElementById('responseMessage');
     
+    const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpbnZvd3R5cHZjc2NuYm1wZmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyMTMxMDgsImV4cCI6MjA5Mjc4OTEwOH0.eYwnLWfnas3fu5wVP98ARjNoAfGfK2HnFjZmN-oud8E'; 
+    const SUPABASE_URL = 'https://uinvowtypvcscnbmpfct.supabase.co/rest/v1/Ideathon%20Registration';
+
     if (applyBtn && formBox) {
         applyBtn.addEventListener('click', () => {
             formBox.classList.add('active');
@@ -272,21 +263,36 @@ function initializeEventForm() {
             const formData = new FormData(form);
             const dataPayload = Object.fromEntries(formData.entries());
             
+            // Format participants to integer if it exists
+            if (dataPayload.participants) {
+                dataPayload.participants = parseInt(dataPayload.participants, 10);
+            }
+            
             try {
-                const response = await fetch('http://localhost:5000/register', {
+                const response = await fetch(SUPABASE_URL, {
                     method: 'POST',
-                    headers: { 'Content-Type': 'application/json' },
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Prefer': 'return=representation'
+                    },
                     body: JSON.stringify(dataPayload)
                 });
-                const result = await response.json();
+                
+                if (!response.ok) {
+                    const errData = await response.json();
+                    throw new Error(errData.message || 'Failed to submit registration');
+                }
                 
                 if(responseBox) {
                     responseBox.style.display = 'block';
-                    responseBox.className = result.status === "success" ? 'success' : 'error';
-                    responseBox.innerText = result.message;
+                    responseBox.className = 'success';
+                    responseBox.innerText = "Registration successful!";
                 }
-                if (result.status === "success") form.reset();
+                form.reset();
             } catch (error) {
+                console.error('Submission error:', error);
                 if(responseBox) {
                     responseBox.style.display = 'block';
                     responseBox.className = 'error';
