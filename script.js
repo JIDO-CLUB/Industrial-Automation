@@ -242,7 +242,7 @@ function initializeEventForm() {
     const responseBox = document.getElementById('responseMessage');
     
     const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InVpbnZvd3R5cHZjc2NuYm1wZmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzcyMTMxMDgsImV4cCI6MjA5Mjc4OTEwOH0.eYwnLWfnas3fu5wVP98ARjNoAfGfK2HnFjZmN-oud8E'; 
-    const SUPABASE_URL = 'https://uinvowtypvcscnbmpfct.supabase.co/rest/v1/Ideathon%20Registration';
+    const SUPABASE_URL = 'https://uinvowtypvcscnbmpfct.supabase.co/rest/v1/IdeathonRegistration';
 
     if (applyBtn && formBox) {
         applyBtn.addEventListener('click', () => {
