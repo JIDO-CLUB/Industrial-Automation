@@ -41,6 +41,15 @@
             <p style="margin-bottom: 25px; color: var(--text-secondary);">Please fill in all details accurately. Total team capacity is limited to 25 teams.</p>
             
             <form id="modernEventForm" class="modern-form">
+                
+                <!-- Added Team Name specifically for the primary entry -->
+                <div class="form-group" style="margin-bottom: 20px;">
+                    <label for="team_name">Team Name</label>
+                    <input type="text" id="team_name" name="team_name" class="input-control" required placeholder="Enter your team name">
+                </div>
+
+                <!-- Primary Participant / Team Leader -->
+                <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: #333;">Team Leader Details</h3>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="first_name">First Name</label>
@@ -74,6 +83,7 @@
                     </div>
                 </div>
 
+                <!-- Participant Count Selection -->
                 <div class="form-group" style="margin-bottom: 30px;">
                     <label for="participants">Number of Team Participants</label>
                     <select id="participants" name="participants" class="input-control" required>
@@ -86,7 +96,10 @@
                     </select>
                 </div>
 
-                <button type="submit" class="btn btn-primary" style="width: 100%; height: 55px; font-size: 1rem;">Confirm Registration</button>
+                <!-- Container for dynamically added team members -->
+                <div id="dynamic-members-container"></div>
+
+                <button type="submit" class="btn btn-primary" style="width: 100%; height: 55px; font-size: 1rem; margin-top: 20px;">Confirm Registration</button>
             </form>
             
             <div id="responseMessage"></div>
@@ -98,5 +111,59 @@
     </footer>
 
     <script src="script.js"></script>
+
+    <!-- Script added to handle dynamic participant field generation professionally -->
+    <script>
+        document.getElementById('participants').addEventListener('change', function() {
+            const count = parseInt(this.value);
+            const container = document.getElementById('dynamic-members-container');
+            
+            // Clear out any previously generated fields to prevent duplicates
+            container.innerHTML = ''; 
+
+            // Generate fields if there are 2 or more participants
+            for (let i = 2; i <= count; i++) {
+                const memberHTML = `
+                    <div class="member-section" style="margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
+                        <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: #333;">Participant ${i} Details</h3>
+                        
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="first_name_${i}">First Name</label>
+                                <input type="text" id="first_name_${i}" name="first_name_${i}" class="input-control" required placeholder="Participant ${i} First Name">
+                            </div>
+                            <div class="form-group">
+                                <label for="last_name_${i}">Last Name</label>
+                                <input type="text" id="last_name_${i}" name="last_name_${i}" class="input-control" required placeholder="Participant ${i} Last Name">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="phone_number_${i}">Phone Number</label>
+                                <input type="tel" id="phone_number_${i}" name="phone_number_${i}" class="input-control" required placeholder="+91 9876543210" pattern="[0-9]{10}">
+                            </div>
+                            <div class="form-group">
+                                <label for="college_email_${i}">College Email ID</label>
+                                <input type="email" id="college_email_${i}" name="college_email_${i}" class="input-control" required placeholder="member${i}@college.edu">
+                            </div>
+                        </div>
+
+                        <div class="form-row">
+                            <div class="form-group">
+                                <label for="branch_${i}">Branch</label>
+                                <input type="text" id="branch_${i}" name="branch_${i}" class="input-control" required placeholder="Robotics & Automation (RAE,AIE,ECE)">
+                            </div>
+                            <div class="form-group">
+                                <label for="roll_number_${i}">Roll Number</label>
+                                <input type="text" id="roll_number_${i}" name="roll_number_${i}" class="input-control" required placeholder="BL.SC.U4AIE2300${i}">
+                            </div>
+                        </div>
+                    </div>
+                `;
+                container.insertAdjacentHTML('beforeend', memberHTML);
+            }
+        });
+    </script>
 </body>
 </html>
