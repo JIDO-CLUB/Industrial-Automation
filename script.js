@@ -291,6 +291,12 @@ function initializeEventForm() {
                 
                 if (!response.ok) {
                     const errData = await response.json();
+                    
+                    // Intercept database constraint violations (duplicate data)
+                    if (errData.code === '23505' || (errData.message && errData.message.includes('duplicate key'))) {
+                        throw new Error('A user is already registered using this email or phone number.');
+                    }
+                    
                     throw new Error(errData.message || 'Failed to submit registration');
                 }
                 
@@ -312,7 +318,21 @@ function initializeEventForm() {
                 if(responseBox) {
                     responseBox.style.display = 'block';
                     responseBox.className = 'error';
-                    responseBox.innerText = "Error: " + error.message; 
+                    
+                    const errMsg = error.message.toLowerCase();
+                    
+                    // 1. Detect network blocks (Adblockers, strict firewalls)
+                    if (errMsg.includes('failed to fetch') || errMsg.includes('networkerror')) {
+                        responseBox.innerHTML = "<strong>Network Blocked:</strong> Your browser or Wi-Fi network is blocking the connection. Please disable adblockers or switch to Mobile Data and try again.";
+                    } 
+                    // 2. Detect duplicate entries
+                    else if (errMsg.includes('already registered')) {
+                        responseBox.innerHTML = "<strong>Registration Failed:</strong> A user is already registered using this email or phone number.";
+                    } 
+                    // 3. Fallback for any other errors
+                    else {
+                        responseBox.innerText = "Error: " + error.message; 
+                    }
                 }
             } finally {
                 submitBtn.disabled = false;
