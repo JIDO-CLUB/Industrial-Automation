@@ -235,6 +235,7 @@ function initializeModals() {
 }
 
 // --- Form Logic (Supabase Direct Integration) ---
+// --- Form Logic (Supabase Direct Integration) ---
 function initializeEventForm() {
     const formBox = document.getElementById('eventFormBox');
     const applyBtn = document.getElementById('applyEventBtn');
@@ -248,7 +249,41 @@ function initializeEventForm() {
         // Ensure form is hidden initially to make the button have a clear effect
         formBox.style.display = 'none';
 
-        applyBtn.addEventListener('click', () => {
+        applyBtn.addEventListener('click', async () => {
+            // Check team count before opening the form
+            try {
+                const countResponse = await fetch(`${SUPABASE_URL}?select=id`, {
+                    method: 'GET',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Range-Unit': 'items',
+                        'Prefer': 'count=exact'
+                    }
+                });
+                
+                // Supabase returns total count in the Content-Range header (e.g., "0-24/25")
+                const contentRange = countResponse.headers.get('content-range');
+                if (contentRange) {
+                    const totalCount = parseInt(contentRange.split('/')[1], 10);
+                    if (totalCount >= 25) {
+                        formBox.style.display = 'block';
+                        formBox.classList.add('active');
+                        applyBtn.style.display = 'none';
+                        if(form) form.style.display = 'none';
+                        if(responseBox) {
+                            responseBox.style.display = 'block';
+                            responseBox.className = 'error';
+                            responseBox.innerHTML = "<strong>Registration Closed:</strong> The maximum limit of 25 teams has been reached.";
+                        }
+                        formBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                        return;
+                    }
+                }
+            } catch (err) {
+                console.error('Could not verify team count:', err);
+            }
+
             formBox.style.display = 'block';
             formBox.classList.add('active');
             
@@ -278,6 +313,24 @@ function initializeEventForm() {
             }
             
             try {
+                // Double-check count right before submitting
+                const countCheck = await fetch(`${SUPABASE_URL}?select=id`, {
+                    method: 'GET',
+                    headers: {
+                        'apikey': SUPABASE_ANON_KEY,
+                        'Authorization': `Bearer ${SUPABASE_ANON_KEY}`,
+                        'Range-Unit': 'items',
+                        'Prefer': 'count=exact'
+                    }
+                });
+                const rangeHeader = countCheck.headers.get('content-range');
+                if (rangeHeader) {
+                    const currentTotal = parseInt(rangeHeader.split('/')[1], 10);
+                    if (currentTotal >= 25) {
+                        throw new Error('Registration closed: The maximum limit of 25 teams has already been reached.');
+                    }
+                }
+
                 const response = await fetch(SUPABASE_URL, {
                     method: 'POST',
                     headers: {
@@ -329,7 +382,11 @@ function initializeEventForm() {
                     else if (errMsg.includes('already registered')) {
                         responseBox.innerHTML = "<strong>Registration Failed:</strong> A user is already registered using this email or phone number.";
                     } 
-                    // 3. Fallback for any other errors
+                    // 3. Detect max limit reached
+                    else if (errMsg.includes('maximum limit') || errMsg.includes('registration closed')) {
+                        responseBox.innerHTML = "<strong>Registration Closed:</strong> The maximum limit of 25 teams has been reached.";
+                    }
+                    // 4. Fallback for any other errors
                     else {
                         responseBox.innerText = "Error: " + error.message; 
                     }
