@@ -326,7 +326,7 @@ function initializeEventForm() {
                 const rangeHeader = countCheck.headers.get('content-range');
                 if (rangeHeader) {
                     const currentTotal = parseInt(rangeHeader.split('/')[1], 10);
-                    if (currentTotal >= 25) {
+                    if (currentTotal >= 35) {
                         throw new Error('Registration closed: The maximum limit of 25 teams has already been reached.');
                     }
                 }
