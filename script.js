@@ -266,7 +266,7 @@ function initializeEventForm() {
                 const contentRange = countResponse.headers.get('content-range');
                 if (contentRange) {
                     const totalCount = parseInt(contentRange.split('/')[1], 10);
-                    if (totalCount >= 25) {
+                    if (totalCount >= 35) {
                         formBox.style.display = 'block';
                         formBox.classList.add('active');
                         applyBtn.style.display = 'none';
