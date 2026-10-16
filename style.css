@@ -594,3 +594,47 @@ footer {
     .modern-form .form-group { margin-bottom: 25px; }
     .member-img-container { height: 200px; }
 }
+/* Red and White Animated Text */
+.red-white-text {
+    text-align: center;
+    font-weight: 800;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    
+    /* Sleek red and white gradient */
+    background: linear-gradient(
+        to right, 
+        #ff0000 0%, 
+        #ffffff 25%, 
+        #ff3333 50%, 
+        #ffffff 75%, 
+        #ff0000 100%
+    );
+    background-size: 200% auto;
+    
+    /* Clip the background to the text */
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* Apply the sliding animation */
+    animation: red-slide 3s linear infinite;
+}
+
+/* Animation keyframes */
+@keyframes red-slide {
+    0% {
+        background-position: 0% center;
+    }
+    100% {
+        background-position: 200% center;
+    }
+}
+
+/* Mobile adjustment */
+@media screen and (max-width: 768px) {
+    .red-white-text {
+        font-size: 1.8rem;
+        padding: 0 15px;
+    }
+}
