@@ -638,3 +638,54 @@ footer {
         padding: 0 15px;
     }
 }
+/* Background container for the heading */
+.mach-one-banner {
+    background-color: #111111; /* Sleek dark background */
+    border: 1px solid rgba(255, 51, 51, 0.3); /* Subtle red border */
+    box-shadow: 0 4px 20px rgba(255, 0, 0, 0.15); /* Soft reddish glow behind the box */
+    border-radius: 12px;
+    padding: 15px 30px;
+    margin: 0 auto; /* Centers the box */
+    max-width: fit-content; /* Keeps the background only as wide as the text */
+}
+
+/* Red and White Animated Text (Your existing code, slightly tweaked) */
+.red-white-text {
+    margin: 0; /* Removes default h1 spacing so it sits perfectly in the box */
+    text-align: center;
+    font-weight: 800;
+    font-size: 2.5rem;
+    text-transform: uppercase;
+    
+    background: linear-gradient(
+        to right, 
+        #ff0000 0%, 
+        #ffffff 25%, 
+        #ff3333 50%, 
+        #ffffff 75%, 
+        #ff0000 100%
+    );
+    background-size: 200% auto;
+    
+    color: transparent;
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    animation: red-slide 3s linear infinite;
+}
+
+@keyframes red-slide {
+    0% { background-position: 0% center; }
+    100% { background-position: 200% center; }
+}
+
+/* Mobile adjustment */
+@media screen and (max-width: 768px) {
+    .mach-one-banner {
+        padding: 10px 20px;
+        margin: 0 15px; /* Adds a little breathing room on the sides of the screen */
+    }
+    .red-white-text {
+        font-size: 1.5rem; /* Scaled down slightly to fit the box well on mobile */
+    }
+}
