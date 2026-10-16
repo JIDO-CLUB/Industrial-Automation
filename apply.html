@@ -28,18 +28,18 @@
     <main>
         <div class="apply-options-header">
             <h2>Join Our Movement</h2>
-            <p>APPLY NOW<br><strong>The IDEATHON is HERE</strong><br>If you aren't able to submit forms try switching network</br></p>
+            <p>APPLY NOW<br><strong>MACH ONE - WORKSHOP</strong><br>If you aren't able to submit forms try switching network</br></p>
         </div>
         <div style="text-align: center; margin-bottom: 20px;">
             <img src="WhatsApp Image 2026-10-02 at 14.52.19.jpeg" alt="Ideathon Poster" style="max-width: 450px; width: 100%; height: auto; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
         </div>
         <div class="apply-buttons-group section-box">
-            <button class="btn btn-primary" id="applyEventBtn" disabled title="Closed">Apply for Event</button>
+            <button class="btn btn-primary" id="applyEventBtn">Apply for Event</button>
             <button class="btn btn-secondary" disabled title="Recruitment currently closed.">Apply for Executive</button>
         </div>
 
         <div class="form-box section-box" id="eventFormBox">
-            <h2>IDEATHON Event Registration</h2>
+            <h2>MACH ONE Registrations</h2>
             <p>Reach out to<br>Shreya-+91 97315 09875<br> Pranav-+91 99029 87427 <br> Sairam-+91 99453 59710 <br> Dhanush-+91 90529 12319 <br> If you have any issues or queries<p>
             <p style="margin-bottom: 25px; color: var(--text-secondary);">Please fill in all details accurately. Total team capacity is limited to 25 teams.</p>
             
@@ -48,11 +48,11 @@
                 <!-- Added Team Name specifically for the primary entry -->
                 <div class="form-group" style="margin-bottom: 20px;">
                     <label for="team_name">Team Name</label>
-                    <input type="text" id="team_name" name="team_name" class="input-control" required placeholder="Enter your team name">
-                </div>
+                    <!--<input type="text" id="team_name" name="team_name" class="input-control" required placeholder="Enter your team name">-->
+                </div> 
 
                 <!-- Primary Participant / Team Leader -->
-                <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: #333;">Team Leader Details</h3>
+                <h3 style="margin-bottom: 15px; font-size: 1.1rem; color: #333;">Details</h3>
                 <div class="form-row">
                     <div class="form-group">
                         <label for="first_name">First Name</label>
@@ -86,13 +86,19 @@
                     </div>
                 </div>
 
-                <!-- Participant Count Selection -->
-                <div class="form-group" style="margin-bottom: 30px;">
-                    <label for="participants">Number of Team Participants</label>
-                    <select id="participants" name="participants" class="input-control" required>
-                        <option value="" disabled selected>Select Participant Count</option>
-                        <option value="3">3</option>
-                    </select>
+                <!-- Participant Count Selection & Transaction Grouped Together -->
+                <div class="form-row" style="margin-bottom: 30px;">
+                    <div class="form-group">
+                        <label for="participants">Number of Team Participants</label>
+                        <select id="participants" name="participants" class="input-control" required>
+                            <option value="" disabled selected>Select Participant Count</option>
+                            <option value="1">1</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="transaction_number">Transaction No. <span style="font-weight: normal; font-size: 0.85em; color: var(--text-secondary);">(UPI ID or UTR)</span></label>
+                        <input type="text" id="transaction_number" name="transaction_number" class="input-control" required placeholder="e.g. 12 Digit Number" pattern="[a-zA-Z0-9]{12}">
+                    </div>
                 </div>
 
                 <!-- Container for dynamically added team members -->
