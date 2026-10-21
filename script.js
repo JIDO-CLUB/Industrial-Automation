@@ -266,7 +266,7 @@ function initializeEventForm() {
                 const contentRange = countResponse.headers.get('content-range');
                 if (contentRange) {
                     const totalCount = parseInt(contentRange.split('/')[1], 10);
-                    if (totalCount >= 35) {
+                    if (totalCount >= 55) {
                         formBox.style.display = 'block';
                         formBox.classList.add('active');
                         applyBtn.style.display = 'none';
@@ -274,7 +274,7 @@ function initializeEventForm() {
                         if(responseBox) {
                             responseBox.style.display = 'block';
                             responseBox.className = 'error';
-                            responseBox.innerHTML = "<strong>Registration Closed:</strong> The maximum limit of 25 teams has been reached.";
+                            responseBox.innerHTML = "<strong>Registration Closed:</strong> The maximum limit of 55 teams has been reached.";
                         }
                         formBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
                         return;
@@ -326,8 +326,8 @@ function initializeEventForm() {
                 const rangeHeader = countCheck.headers.get('content-range');
                 if (rangeHeader) {
                     const currentTotal = parseInt(rangeHeader.split('/')[1], 10);
-                    if (currentTotal >= 35) {
-                        throw new Error('Registration closed: The maximum limit of 25 teams has already been reached.');
+                    if (currentTotal >= 55) {
+                        throw new Error('Registration closed: The maximum limit of 55 teams has already been reached.');
                     }
                 }
 
@@ -384,7 +384,7 @@ function initializeEventForm() {
                     } 
                     // 3. Detect max limit reached
                     else if (errMsg.includes('maximum limit') || errMsg.includes('registration closed')) {
-                        responseBox.innerHTML = "<strong>Registration Closed:</strong> The maximum limit of 25 teams has been reached.";
+                        responseBox.innerHTML = "<strong>Registration Closed:</strong> The maximum limit of 55 teams has been reached.";
                     }
                     // 4. Fallback for any other errors
                     else {
