@@ -696,31 +696,98 @@ header nav {
     gap: 10px;
 }
 
-header .nav-links {
-    margin-bottom: 0;
-}
-
-.header-socials {
+.jido-contact-row {
     display: flex;
-    justify-content: flex-end;
     align-items: center;
-    flex-wrap: wrap;
-    gap: 18px;
+    justify-content: flex-end;
+    gap: 12px;
 }
 
-.header-socials a {
-    color: inherit;
-    font-size: 14px;
-    font-weight: 500;
+.jido-contact-icon {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border: 1px solid rgba(255, 255, 255, 0.15);
+    border-radius: 12px;
+    background: rgba(255, 255, 255, 0.03);
+    color: #ffffff;
     text-decoration: none;
+    transition:
+        color 0.25s ease,
+        background 0.25s ease,
+        border-color 0.25s ease,
+        box-shadow 0.25s ease,
+        transform 0.25s ease;
 }
 
-.header-socials a:hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
+.jido-contact-icon svg {
+    width: 23px;
+    height: 23px;
+    fill: none;
+    stroke: currentColor;
+    stroke-width: 1.8;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    transition: filter 0.25s ease;
 }
 
-.header-socials a:focus-visible {
+.jido-contact-icon .instagram-dot {
+    fill: currentColor;
+    stroke: none;
+}
+
+/* Email: cyan glow */
+.jido-email:hover,
+.jido-email:focus-visible {
+    color: #00d4ff;
+    border-color: #00d4ff;
+    background: rgba(0, 212, 255, 0.1);
+    box-shadow:
+        0 0 12px rgba(0, 212, 255, 0.45),
+        0 0 26px rgba(0, 212, 255, 0.2);
+}
+
+/* Instagram: pink, purple and orange glow */
+.jido-instagram:hover,
+.jido-instagram:focus-visible {
+    color: #ff65a3;
+    border-color: #e1306c;
+    background: linear-gradient(
+        135deg,
+        rgba(131, 58, 180, 0.22),
+        rgba(225, 48, 108, 0.18),
+        rgba(252, 175, 69, 0.15)
+    );
+    box-shadow:
+        0 0 12px rgba(225, 48, 108, 0.5),
+        0 0 26px rgba(131, 58, 180, 0.3);
+}
+
+.jido-contact-icon:hover,
+.jido-contact-icon:focus-visible {
+    transform: translateY(-2px);
+}
+
+.jido-contact-icon:hover svg,
+.jido-contact-icon:focus-visible svg {
+    filter: drop-shadow(0 0 4px currentColor);
+}
+
+.jido-contact-icon:focus-visible {
     outline: 2px solid currentColor;
     outline-offset: 4px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .jido-contact-icon,
+    .jido-contact-icon svg {
+        transition: none;
+    }
+
+    .jido-contact-icon:hover,
+    .jido-contact-icon:focus-visible {
+        transform: none;
+    }
 }
