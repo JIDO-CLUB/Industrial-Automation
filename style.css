@@ -689,3 +689,38 @@ footer {
         font-size: 1.5rem; /* Scaled down slightly to fit the box well on mobile */
     }
 }
+header nav {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 10px;
+}
+
+header .nav-links {
+    margin-bottom: 0;
+}
+
+.header-socials {
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 18px;
+}
+
+.header-socials a {
+    color: inherit;
+    font-size: 14px;
+    font-weight: 500;
+    text-decoration: none;
+}
+
+.header-socials a:hover {
+    text-decoration: underline;
+    text-underline-offset: 4px;
+}
+
+.header-socials a:focus-visible {
+    outline: 2px solid currentColor;
+    outline-offset: 4px;
+}
